@@ -41,7 +41,7 @@ public class MainActivity extends Activity  {
 			
 			
 			File f = new File("/sdcard/logo.png");
-	         
+	         // aca me aseguro de tener ese archivo ene le telefono
 	      
 	        uploadFile(f);
 			
@@ -70,7 +70,7 @@ public class MainActivity extends Activity  {
              
        //     client.connect(FTP_HOST,21,FTP_USER,FTP_PASS);
            
-        	  client.connect(FTP_HOST,21);
+        	  client.connect(FTP_HOST,21);// con este uso usuario anonymous y pass anonymous
              
         } catch (Exception e) {
             e.printStackTrace();
