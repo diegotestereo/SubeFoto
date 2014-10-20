@@ -20,19 +20,21 @@ import android.widget.Toast;
 public class MainActivity extends Activity
 {
 
-	SimpleFTP client;
+
 	Button Enviar, Buscar;
 	TextView Text_link;
 
 	/********* work only for Dedicated IP ***********/
-	static final String FTP_HOST = "ftp.ushuaiamovil.com.ar";
+	//static final String FTP_HOST = "ftp.ushuaiamovil.com.ar";
+	static final String FTP_HOST = "192.168.0.7";
 
 	/********* FTP USERNAME ***********/
-	static final String FTP_USER = "ushuaiamovil";
+//	static final String FTP_USER = "ushuaiamovil";
+	static final String FTP_USER = "diego";
 
 	/********* FTP PASSWORD ***********/
-	static final String FTP_PASS = "4rVdN6lH";
-	
+	//static final String FTP_PASS = "4rVdN6lH";
+	static final String FTP_PASS = "diego";
 	Button btn;
 
 	@Override
@@ -60,6 +62,7 @@ public class MainActivity extends Activity
 		@Override
 		protected void onPreExecute()
 		{
+			Log.d("tareaasincrona","onPreExecute");
 			pd = new ProgressDialog(MainActivity.this);
 			pd.setMessage("subiendo...");
 			pd.show();
@@ -69,12 +72,14 @@ public class MainActivity extends Activity
 		@Override
 		protected Boolean doInBackground(Void... params)
 		{
+			Log.d("tareaasincrona","doInBackground");
 			return uploadFile();
 		}
 		
 		@Override
 		protected void onPostExecute(Boolean resutl)
 		{
+			Log.d("tareaasincrona","onPostExecute");
 			pd.dismiss();
 			if (resutl)
 			{
@@ -97,34 +102,37 @@ public class MainActivity extends Activity
 
 	public boolean uploadFile()
 	{
-		client = new SimpleFTP();
+		SimpleFTP client; client = new SimpleFTP();
+		Log.d("uploadFile","client.connect(FTP_HOST,21,FTP_USER,FTP_PASS);");
 		try
 		{
 
 			client.connect(FTP_HOST,21,FTP_USER,FTP_PASS);
-
-			//client.connect(FTP_HOST, 21);// con este uso usuario anonymous y pass anonymous
+			Log.d("uploadFile","client.connect(FTP_HOST,21,FTP_USER,FTP_PASS);");
+		//	client.connect(FTP_HOST, 21);// con este uso usuario anonymous y pass anonymous
 			
 			 // Set binary mode.
 			client.bin();
-		    
+			Log.d("uploadFile","client.bin();");
 		    // Change to a new working directory on the FTP server.
 			client.cwd("public_html");
-		    
+			Log.d("uploadFile","client.cwd(public_html)");
 		    // Upload some files.
-			 File f = new File("/sdcard/Download/logo.jpg");
-			
+			 File f = new File("/sdcard/Download/350211.rar");
+			 Log.d("uploadFile"," File f = new File(/sdcard/Download/logo.png);");
 			boolean rta = client.stor(f);
 				    
 		   	    
 		    // Quit from the FTP server.
 			client.disconnect();
+			 Log.d("uploadFile","client.disconnect();");
 			return rta;
 
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
+			 Log.d("uploadFile","tiro error");
 		}
 		return false;
 	}
